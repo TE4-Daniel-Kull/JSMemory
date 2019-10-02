@@ -180,6 +180,7 @@ function flip_card(e) {
                     
                     if(is_game_over()) {
                         setTimeout(() => alert("Game Completed!"), 300)
+                        game_over = true
                     }
                 }
             }
@@ -189,18 +190,29 @@ function flip_card(e) {
     document.querySelector('.match_counter').textContent = matched_pairs
 }
 
+function tick() {
+    if(!game_over) {
+        time += 1
+        setTimeout(tick, 1000)
+    }
+}
+
+let game_over = false
+let time = 0
 let matched_pairs = 0
 let total_flips = 0
 
-let amount_of_cards = 12
+let amount_of_cards = 5
 cards = cards.splice(0, amount_of_cards) // amount of cards
 duplicate_cards()
+
 let max_flipped = cards.length / amount_of_cards
 cards = shuffle(cards)
 
 const template = document.importNode(document.querySelector('template').content, true)
 const card_template = template.querySelector(".card")
 render_cards()
+tick()
 
 
 
